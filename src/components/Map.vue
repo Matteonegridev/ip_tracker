@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
 import { reactive, ref } from "vue";
 
-const zoom = ref(4);
+const zoom = ref(2);
 
 const coordinates = reactive({
   x: 47.41322,
@@ -28,7 +28,5 @@ const coordinates = reactive({
   display: block;
   height: 100vh;
   width: 100%;
-  position: relative;
-  z-index: -1;
 }
 </style>
