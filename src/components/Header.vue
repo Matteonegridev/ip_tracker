@@ -4,9 +4,10 @@ import { ref } from "vue";
 
 const ip = ref("");
 const ipData = ref(null);
+const { data, fetchData } = useFetch();
 
 const handleSubmit = async () => {
-  const { data } = await useFetch(ip.value);
+  await fetchData(`http://ip-api.com/json/${ip.value}`);
   ipData.value = data.value;
   console.log(ipData.value);
   ip.value = "";
