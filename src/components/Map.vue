@@ -1,26 +1,29 @@
 <script setup>
-import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
-import { reactive, ref } from "vue";
+// import "leaflet/dist/leaflet.css";
 
-const zoom = ref(2);
+import { onMounted, reactive, ref } from "vue";
+import L from "leaflet";
+
+// const zoom = ref(2);
+const mapContainer = ref(null);
+let map = ref();
 
 const coordinates = reactive({
   x: 47.41322,
   y: -1.219482,
 });
+
+onMounted(() => {
+  map.value = L.map(mapContainer.value).setView([coordinates.x, coordinates.y], 5);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map.value);
+});
 </script>
 
 <template>
-  <div id="map">
-    <l-map ref="map" v-model:zoom="zoom" :center="[coordinates.x, coordinates.y]">
-      <l-tile-layer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        layer-type="base"
-        name="OpenStreetMap"
-      ></l-tile-layer>
-    </l-map>
-  </div>
+  <div id="map" ref="mapContainer"></div>
 </template>
 
 <style lang="css">

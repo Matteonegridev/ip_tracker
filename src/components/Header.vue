@@ -6,7 +6,7 @@
     <div class="header-form">
       <form action="">
         <div class="wrapper-input">
-          <input type="text" class="form-input" />
+          <input type="text" class="form-input" placeholder="Search for any IP or domain" />
           <button class="form-button" type="submit">
             <img class="icon" src="../assets/images/icon-arrow.svg" />
           </button>
@@ -68,6 +68,10 @@ header {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.form-input::placeholder {
+  color: rgb(201, 201, 201);
 }
 
 @media screen and (min-width: 768px) {
