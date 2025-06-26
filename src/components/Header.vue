@@ -1,12 +1,25 @@
-<script setup></script>
+<script setup>
+import { useFetch } from "@/composable/useFetch";
+import { ref } from "vue";
+
+const ip = ref("");
+const ipData = ref(null);
+
+const handleSubmit = async () => {
+  const { data } = await useFetch(ip.value);
+  ipData.value = data.value;
+  console.log(ipData.value);
+  ip.value = "";
+};
+</script>
 
 <template>
   <header>
     <h1 class="header-title">IP Address Tracker</h1>
     <div class="header-form">
-      <form action="">
+      <form @submit.prevent="handleSubmit" method="post">
         <div class="wrapper-input">
-          <input type="text" class="form-input" placeholder="Search for any IP or domain" />
+          <input type="text" class="form-input" placeholder="Search for any IP or domain" v-model="ip" />
           <button class="form-button" type="submit">
             <img class="icon" src="../assets/images/icon-arrow.svg" />
           </button>
@@ -53,6 +66,7 @@ header {
   font-size: 1rem;
   width: 300px;
   max-width: 80vw;
+  font-family: inherit;
 }
 
 .form-button {
