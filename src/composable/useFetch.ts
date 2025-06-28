@@ -10,9 +10,7 @@ export function useFetch() {
     try {
       const res = await axios.get(url);
       data.value = res.data;
-      console.log("res:", res.data);
     } catch (error) {
-      console.log(error);
       error.value = error;
     }
   };

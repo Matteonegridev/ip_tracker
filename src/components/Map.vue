@@ -1,29 +1,40 @@
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import { mergeProps, onMounted, ref, watch } from "vue";
 import L from "leaflet";
 
+const map = ref();
+const marker = ref();
 const mapContainer = ref();
-let map = ref();
-const coordinates = reactive({
-  x: 51.505,
-  y: -0.09,
-});
-const zoom = ref(5);
+const zoom = ref(13);
 
+// define props:
+const props = defineProps(["ipData"]);
+
+// prevent the map to go full screen:
 L.Control.include({
-  _refocusOnMap: L.Util.falseFn, // Do nothing.
+  _refocusOnMap: L.Util.falseFn,
 });
 
 onMounted(() => {
-  map.value = L.map(mapContainer.value).setView([coordinates.x, coordinates.y], zoom.value);
+  map.value = L.map(mapContainer.value).setView([51.505, -0.09], zoom.value);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map.value);
-  L.Control.include({
-    _refocusOnMap: L.Util.falseFn, // Do nothing.
-  });
+  marker.value = L.marker([51.505, -0.09]).addTo(map.value);
 });
+
+// watch ipData for changes:
+watch(
+  () => props.ipData,
+  async (newIpData) => {
+    if (newIpData?.lat && newIpData?.lon && map.value) {
+      const latLon = [newIpData.lat, newIpData.lon];
+      map.value.setView(latLon);
+      marker.value.setLatLng(latLon);
+    }
+  }
+);
 </script>
 
 <template>

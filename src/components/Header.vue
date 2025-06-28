@@ -3,13 +3,15 @@ import { useFetch } from "@/composable/useFetch";
 import { ref } from "vue";
 
 const ip = ref("");
-const ipData = ref(null);
+const ipData = ref();
 const { data, fetchData } = useFetch();
+
+// define emit to pass data up to App.vue so it can be passed down to map as prop:
+const emit = defineEmits(["update-ip-data"]);
 
 const handleSubmit = async () => {
   await fetchData(`http://ip-api.com/json/${ip.value}`);
-  ipData.value = data.value;
-  console.log(ipData.value);
+  emit("update-ip-data", data.value);
   ip.value = "";
 };
 </script>
