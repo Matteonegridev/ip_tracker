@@ -2,9 +2,11 @@
 import { useFetch } from "@/composable/useFetch";
 import { ref } from "vue";
 
+import Result from "./Result.vue";
+
 const ip = ref("");
-const ipData = ref();
 const { data, fetchData } = useFetch();
+const loading = ref(false);
 
 // define emit to pass data up to App.vue so it can be passed down to map as prop:
 const emit = defineEmits(["update-ip-data"]);
@@ -12,6 +14,8 @@ const emit = defineEmits(["update-ip-data"]);
 const handleSubmit = async () => {
   await fetchData(`http://ip-api.com/json/${ip.value}`);
   emit("update-ip-data", data.value);
+  console.log(data.value);
+  loading.value = true;
   ip.value = "";
 };
 </script>
@@ -28,6 +32,16 @@ const handleSubmit = async () => {
           </button>
         </div>
       </form>
+      <Transition>
+        <Result
+          v-if="loading"
+          @get-data="handleSubmit"
+          :ip="data?.query"
+          :location="data?.city"
+          :timezone="data?.timezone"
+          :isp="data?.isp"
+        />
+      </Transition>
     </div>
   </header>
 </template>
@@ -53,12 +67,13 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .wrapper-input {
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .form-input {
@@ -67,8 +82,7 @@ header {
   outline: none;
   border: none;
   font-size: 1rem;
-  width: 300px;
-  max-width: 80vw;
+  width: 90dvw;
   font-family: inherit;
 }
 
@@ -89,6 +103,17 @@ header {
 
 .form-input::placeholder {
   color: rgb(201, 201, 201);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 
 @media screen and (min-width: 768px) {

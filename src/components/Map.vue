@@ -1,11 +1,11 @@
 <script setup>
-import { mergeProps, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import L from "leaflet";
 
 const map = ref();
 const marker = ref();
 const mapContainer = ref();
-const zoom = ref(13);
+let zoom = ref(13);
 
 // define props:
 const props = defineProps(["ipData"]);
@@ -30,7 +30,7 @@ watch(
   async (newIpData) => {
     if (newIpData?.lat && newIpData?.lon && map.value) {
       const latLon = [newIpData.lat, newIpData.lon];
-      map.value.setView(latLon);
+      map.value.setView(latLon, (zoom.value = 15));
       marker.value.setLatLng(latLon);
     }
   }
@@ -46,6 +46,8 @@ watch(
   display: block;
   height: 100vh;
   width: 100%;
+  position: relative;
+  z-index: 0;
 }
 @media screen and(min-width: 768px) {
   #map {
