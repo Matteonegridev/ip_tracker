@@ -22,13 +22,18 @@ const handleSubmit = async () => {
 const getTimezone = (timezone) => {
   const date = new Date();
 
-  const locale = new Intl.DateTimeFormat("en-US", {
+  // Get user's locale (example)
+  const userLocale =
+    navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language || "en-US";
+
+  const locale = new Intl.DateTimeFormat(userLocale, {
     timeZone: timezone,
     timeStyle: "long",
   }).format(date);
 
   const formatDate = locale.split(" ").pop();
   console.log(formatDate);
+  console.log(userLocale);
 
   return formatDate;
 };
