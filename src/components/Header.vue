@@ -18,6 +18,20 @@ const handleSubmit = async () => {
   loading.value = true;
   ip.value = "";
 };
+
+const getTimezone = (timezone) => {
+  const date = new Date();
+
+  const locale = new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    timeStyle: "long",
+  }).format(date);
+
+  const formatDate = locale.split(" ").pop();
+  console.log(formatDate);
+
+  return formatDate;
+};
 </script>
 
 <template>
@@ -38,7 +52,7 @@ const handleSubmit = async () => {
           @get-data="handleSubmit"
           :ip="data?.query"
           :location="data?.city"
-          :timezone="data?.timezone"
+          :timezone="getTimezone(data?.timezone)"
           :isp="data?.isp"
         />
       </Transition>
