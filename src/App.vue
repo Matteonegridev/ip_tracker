@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import Map from "./components/Map.vue";
 import Header from "./components/Header.vue";
-import Result from "./components/Result.vue";
+import Footer from "@/components/Footer.vue";
 
 const ipData = ref(null);
 
@@ -14,6 +14,7 @@ const updateIpData = (data) => {
 <template>
   <div>
     <Header @update-ip-data="updateIpData" />
-    <Map :ipData="ipData" />
+    <Map ipData="ipData" />
+    <Footer />
   </div>
 </template>

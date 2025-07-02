@@ -17,6 +17,7 @@
 }
 
 body {
+  position: relative;
   min-height: 100vh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
