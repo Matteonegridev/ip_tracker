@@ -33,20 +33,14 @@ const getTimezone = (timezone) => {
 
   if (locale.includes("EDT") || locale.includes("ADT")) {
     const userTime = new Date().getHours();
-    console.log("inside if, userTime:", userTime);
 
     const newDate = locale.split(" ").slice(0, -2).join(" ");
     const newHour = parseInt(newDate);
     const differenceHour = newHour - userTime;
 
-    console.log("newdate:", newDate);
-    console.log("diff:", differenceHour);
     return `GMT ${differenceHour}`;
   } else {
     const formatDate = locale.split(" ").pop();
-    console.log(formatDate);
-    console.log(locale);
-    console.log(userLocale);
 
     return formatDate;
   }
