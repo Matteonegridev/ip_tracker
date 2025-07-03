@@ -13,12 +13,13 @@ const emit = defineEmits(["update-ip-data"]);
 
 const handleSubmit = async () => {
   await fetchData(`http://ip-api.com/json/${ip.value}`);
-  emit("update-ip-data", data.value);
   console.log(data.value);
+  emit("update-ip-data", data.value);
   loading.value = true;
   ip.value = "";
 };
 
+// timezone function :
 const getTimezone = (timezone) => {
   const date = new Date();
 
@@ -32,11 +33,15 @@ const getTimezone = (timezone) => {
   }).format(date);
 
   if (locale.includes("EDT") || locale.includes("ADT")) {
-    const userTime = new Date().getHours();
+    const userTime = new Date().getHours() % 12;
+    console.log(userTime);
 
     const newDate = locale.split(" ").slice(0, -2).join(" ");
     const newHour = parseInt(newDate);
+    console.log(newHour);
+
     const differenceHour = newHour - userTime;
+    console.log(differenceHour);
 
     return `GMT ${differenceHour}`;
   } else {
