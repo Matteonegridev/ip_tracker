@@ -8,13 +8,13 @@ const ip = ref("");
 const { data, fetchData } = useFetch();
 const loading = ref(false);
 
-// define emit to pass data up to App.vue so it can be passed down to map as prop:
-const emit = defineEmits(["update-ip-data"]);
+// define model to pass data to app.vue: we don't use the emit.
+const ipData = defineModel(["update-ip-data"]);
 
 const handleSubmit = async () => {
   await fetchData(`http://ip-api.com/json/${ip.value}`);
   console.log(data.value);
-  emit("update-ip-data", data.value);
+  ipData.value = data.value;
   loading.value = true;
   ip.value = "";
 };
@@ -40,7 +40,7 @@ const getTimezone = (timezone) => {
     const newHour = parseInt(newDate);
     console.log(newHour);
 
-    const differenceHour = newHour - userTime;
+    const differenceHour = userTime - newHour;
     console.log(differenceHour);
 
     return `GMT ${differenceHour}`;

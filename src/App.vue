@@ -5,15 +5,11 @@ import Header from "./components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
 const ipData = ref(null);
-
-const updateIpData = (data) => {
-  ipData.value = data;
-};
 </script>
 
 <template>
   <div>
-    <Header @update-ip-data="updateIpData" />
+    <Header v-model:update-ip-data="ipData" />
     <Map ipData="ipData" />
     <Footer />
   </div>
